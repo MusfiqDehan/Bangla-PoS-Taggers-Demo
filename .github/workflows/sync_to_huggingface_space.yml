@@ -14,4 +14,5 @@ jobs:
             - name: Push to hub
               env:
                   HF_TOKEN: ${{ secrets.HF_TOKEN }}
-              run: git push https://musfiqdehan:$HF_TOKEN@huggingface.co/spaces/musfiqdehan/Bangla-PoS-Taggers main
+                  HF_USERNAME: ${{ secrets.HF_USERNAME }}
+              run: git push https://$HF_USERNAME:$HF_TOKEN@huggingface.co/spaces/$HF_USERNAME/Bangla-PoS-Taggers main
