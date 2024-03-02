@@ -22,6 +22,8 @@ def select_model(model_name):
         model_name="musfiqdehan/bn-en-word-aligner"
     elif model_name == "BUET-BanglaBERT (Large)":
         model_name="csebuetnlp/banglabert_large"
+    elif model_name == "SagorSarker-BanglaBERT (Base)":
+        model_name="sagorsarker/bangla-bert-base"
 
     return model_name
 
