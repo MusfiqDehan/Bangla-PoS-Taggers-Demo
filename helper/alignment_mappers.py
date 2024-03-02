@@ -20,8 +20,8 @@ def select_model(model_name):
         model_name="bert-base-multilingual-cased"
     elif model_name == "Neulab-AwesomeAlign (Bn-En-0.5M)":
         model_name="musfiqdehan/bn-en-word-aligner"
-    elif model_name == "BUET-BanglaT5":
-        model_name="csebuetnlp/banglat5"
+    elif model_name == "BUET-BanglaBERT (Large)":
+        model_name="csebuetnlp/banglabert_large"
 
     return model_name
 
