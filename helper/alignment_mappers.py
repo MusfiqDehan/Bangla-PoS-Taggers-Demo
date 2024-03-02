@@ -12,21 +12,37 @@ logging.set_verbosity_warning()
 logging.set_verbosity_error()
 
 
-def get_alignment_mapping(source="", target="", model_path="musfiqdehan/bn-en-word-aligner"):
+def select_model(model_name):
+    """
+    Select Model
+    """
+    if model_name == "Google-mBERT (Base-Multilingual)":
+        model_name="bert-base-multilingual-cased"
+    elif model_name == "Neulab-AwesomeAlign (Bn-En-0.5M)":
+        model_name="musfiqdehan/bn-en-word-aligner"
+
+    return model_name
+
+
+def get_alignment_mapping(source="", target="", model_name=""):
     """
     Get Aligned Words
     """
-    model = transformers.BertModel.from_pretrained(model_path)
-    tokenizer = transformers.BertTokenizer.from_pretrained(model_path)
+    model_name = select_model(model_name)
+
+    model = transformers.BertModel.from_pretrained(model_name)
+    tokenizer = transformers.BertTokenizer.from_pretrained(model_name)
 
     # pre-processing
     sent_src, sent_tgt = source.strip().split(), target.strip().split()
+
     token_src, token_tgt = [tokenizer.tokenize(word) for word in sent_src], [
         tokenizer.tokenize(word) for word in sent_tgt]
+    
     wid_src, wid_tgt = [tokenizer.convert_tokens_to_ids(x) for x in token_src], [
         tokenizer.convert_tokens_to_ids(x) for x in token_tgt]
-    ids_src, ids_tgt = tokenizer.prepare_for_model(list(itertools.chain(*wid_src)), return_tensors='pt', model_max_length=tokenizer.model_max_length, truncation=True)[
-        'input_ids'], tokenizer.prepare_for_model(list(itertools.chain(*wid_tgt)), return_tensors='pt', truncation=True, model_max_length=tokenizer.model_max_length)['input_ids']
+    
+    ids_src, ids_tgt = tokenizer.prepare_for_model(list(itertools.chain(*wid_src)), return_tensors='pt', model_max_length=tokenizer.model_max_length, truncation=True)['input_ids'], tokenizer.prepare_for_model(list(itertools.chain(*wid_tgt)), return_tensors='pt', truncation=True, model_max_length=tokenizer.model_max_length)['input_ids']
     sub2word_map_src = []
 
     for i, word_list in enumerate(token_src):
@@ -69,12 +85,12 @@ def get_alignment_mapping(source="", target="", model_path="musfiqdehan/bn-en-wo
 
 
 
-def get_word_mapping(source="", target="", model_path="musfiqdehan/bn-en-word-aligner"):
+def get_word_mapping(source="", target="", model_name=""):
     """
     Get Word Aligned Mapping Words
     """
     sent_src, sent_tgt, align_words = get_alignment_mapping(
-        source=source, target=target, model_path=model_path)
+        source=source, target=target, model_name=model_name)
 
     result = []
 
@@ -85,12 +101,12 @@ def get_word_mapping(source="", target="", model_path="musfiqdehan/bn-en-word-al
 
 
 
-def get_word_index_mapping(source="", target="", model_path="musfiqdehan/bn-en-word-aligner"):
+def get_word_index_mapping(source="", target="", model_name=""):
     """
     Get Word Aligned Mapping Index
     """
     sent_src, sent_tgt, align_words = get_alignment_mapping(
-        source=source, target=target, model_path=model_path)
+        source=source, target=target, model_name=model_name)
 
     result = []
 
@@ -98,3 +114,6 @@ def get_word_index_mapping(source="", target="", model_path="musfiqdehan/bn-en-w
         result.append(f'bn:({i}) -> en:({j})')
 
     return result
+
+
+
