@@ -2,7 +2,7 @@
 This module contains the functions to get PoS tags using Spacy and return a Markdown table
 """
 
-from .alignment_mappers import get_alignment_mapping
+from .alignment_mappers import get_alignment_mapping, select_model
 
 from flair.models import SequenceTagger
 from flair.data import Sentence
@@ -61,11 +61,11 @@ def get_postag(
         get_postag_dict,
         source="", 
         target="", 
-        model_path="musfiqdehan/bn-en-word-aligner"):
+        model_name="musfiqdehan/bn-en-word-aligner"):
     """Get Spacy PoS Tags and return a Markdown table"""
 
     sent_src, sent_tgt, align_words = get_alignment_mapping(
-        source=source, target=target, model_path=model_path
+        source=source, target=target, model_name=model_name
     )
     postag_dict = get_postag_dict(target=target)
 
@@ -126,7 +126,7 @@ def get_postag(
     return html_table, pos_accuracy
 
 
-def select_pos_tagger(src, tgt, tagger):
+def select_pos_tagger(src, tgt, model_name, tagger):
     ''' 
     Select the PoS tagger 
     '''
@@ -134,32 +134,34 @@ def select_pos_tagger(src, tgt, tagger):
     result = None
     pos_accuracy = None
 
+    model_name = select_model(model_name)
+
     if tagger == "spaCy":
         result, pos_accuracy = get_postag(
             get_spacy_postag_dict,
             source=src,
             target=tgt,
-            model_path="musfiqdehan/bn-en-word-aligner", 
+            model_name=model_name, 
         )
     elif tagger == "NLTK":
         result, pos_accuracy = get_postag(
             get_nltk_postag_dict,
             source=src,
             target=tgt,
-            model_path="musfiqdehan/bn-en-word-aligner", 
+            model_name=model_name, 
         )
     elif tagger == "Flair":
         result, pos_accuracy = get_postag(
             get_flair_postag_dict,
             source=src,
             target=tgt,
-            model_path="musfiqdehan/bn-en-word-aligner", 
+            model_name=model_name, 
         )
     elif tagger == "TextBlob":
         result, pos_accuracy = get_postag(
             get_textblob_postag_dict,
             source=src,
             target=tgt,
-            model_path="musfiqdehan/bn-en-word-aligner", 
+            model_name=model_name, 
         )
     return result, pos_accuracy
