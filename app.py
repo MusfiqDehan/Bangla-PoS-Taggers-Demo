@@ -65,7 +65,7 @@ with gr.Blocks(css="styles.css") as demo:
                     label="Select a Translator"
                 ),
                 gr.Dropdown(
-                    choices=["Google-mBERT (Base-Multilingual)", "Neulab-AwesomeAlign (Bn-En-0.5M)", "BUET-BanglaBERT (Large)"], 
+                    choices=["Google-mBERT (Base-Multilingual)", "Neulab-AwesomeAlign (Bn-En-0.5M)", "BUET-BanglaBERT (Large)", "SagorSarker-BanglaBERT (Base)"], 
                     label="Select a Model"
                 ),
                 gr.Dropdown(
