@@ -24,6 +24,8 @@ def select_model(model_name):
         model_name="csebuetnlp/banglabert_large"
     elif model_name == "SagorSarker-BanglaBERT (Base)":
         model_name="sagorsarker/bangla-bert-base"
+    elif model_name == "SentenceTransformers-LaBSE (Multilingual)":
+        model_name="sentence-transformers/LaBSE"
 
     return model_name
 
