@@ -59,6 +59,7 @@ with gr.Blocks(css="styles.css") as demo:
                 inputs = [
                     gr.Textbox(
                         label="Enter Bangla Sentence", 
+                        show_copy_button=True,
                         placeholder="বাংলা বাক্য লিখুন"
                     ),
                     gr.Dropdown(
@@ -80,7 +81,7 @@ with gr.Blocks(css="styles.css") as demo:
 
             with gr.Column():
                 outputs = [
-                    gr.Textbox(label="English Translation"), 
+                    gr.Textbox(label="English Translation", show_copy_button=True), 
                     RichTextbox(label="PoS Tags"),
                     gr.Textbox(label="PoS Tagging Accuracy (Based on Unknown(UNK) Tags)")
                 ]
@@ -139,6 +140,7 @@ with gr.Blocks(css="styles.css") as demo:
                 inputs = [
                     gr.Textbox(
                         label="Enter Bangla Sentence", 
+                        show_copy_button=True,
                         placeholder="বাংলা বাক্য লিখুন"
                     ),
                     gr.Dropdown(
