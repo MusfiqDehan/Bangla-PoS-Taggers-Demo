@@ -73,9 +73,9 @@ with gr.Blocks(css="styles.css") as demo:
                     label="Select a PoS Tagger"
                 )
             ]
-
-            btn = gr.Button(value="Submit", elem_classes="mybtn")
-            gr.ClearButton(inputs)
+            with gr.Row():
+                btn = gr.Button(value="Submit", variant="primary")
+                gr.ClearButton(inputs)
 
         with gr.Column():
             outputs = [
