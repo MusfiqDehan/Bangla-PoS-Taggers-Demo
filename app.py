@@ -53,85 +53,129 @@ with gr.Blocks(css="styles.css") as demo:
     gr.HTML("<h1>Bangla PoS Taggers</h1>")
     gr.HTML("<p>Parts of Speech (PoS) Tagging of Bangla Sentence using Bangla-English <strong>Word Alignment</strong></p>")
 
-    with gr.Row():
-        with gr.Column():
-            inputs = [
-                gr.Textbox(
-                    label="Enter Bangla Sentence", 
-                    placeholder="বাংলা বাক্য লিখুন"
-                ),
-                gr.Dropdown(
-                    choices=["Google", "BanglaNMT", "MyMemory"], 
-                    label="Select a Translator"
-                ),
-                gr.Dropdown(
-                    choices=["Google-mBERT (Base-Multilingual)", "Neulab-AwesomeAlign (Bn-En-0.5M)", "BUET-BanglaBERT (Large)", "SagorSarker-BanglaBERT (Base)", "SentenceTransformers-LaBSE (Multilingual)"], 
-                    label="Select a Model"
-                ),
-                gr.Dropdown(
-                    choices=["spaCy", "NLTK", "Flair", "TextBlob"], 
-                    label="Select a PoS Tagger"
-                )
+    with gr.Tab("Using Alignment"):
+        with gr.Row():
+            with gr.Column():
+                inputs = [
+                    gr.Textbox(
+                        label="Enter Bangla Sentence", 
+                        placeholder="বাংলা বাক্য লিখুন"
+                    ),
+                    gr.Dropdown(
+                        choices=["Google", "BanglaNMT", "MyMemory"], 
+                        label="Select a Translator"
+                    ),
+                    gr.Dropdown(
+                        choices=["Google-mBERT (Base-Multilingual)", "Neulab-AwesomeAlign (Bn-En-0.5M)", "BUET-BanglaBERT (Large)", "SagorSarker-BanglaBERT (Base)", "SentenceTransformers-LaBSE (Multilingual)"], 
+                        label="Select a Model"
+                    ),
+                    gr.Dropdown(
+                        choices=["spaCy", "NLTK", "Flair", "TextBlob"], 
+                        label="Select a PoS Tagger"
+                    )
+                ]
+                with gr.Row():
+                    btn = gr.Button(value="Submit", variant="primary")
+                    gr.ClearButton(inputs)
+
+            with gr.Column():
+                outputs = [
+                    gr.Textbox(label="English Translation"), 
+                    RichTextbox(label="PoS Tags"),
+                    gr.Textbox(label="PoS Tagging Accuracy (Based on Unknown(UNK) Tags)")
+                ]
+
+        btn.click(bn_postagger, inputs, outputs)
+
+        gr.Examples([
+            [
+                "বাংলাদেশ দক্ষিণ এশিয়ার একটি সার্বভৌম রাষ্ট্র।", 
+                "Google", 
+                "Neulab-AwesomeAlign (Bn-En-0.5M)", 
+                "NLTK"
+            ],
+            [
+                "বাংলাদেশের সংবিধানিক নাম কি?", 
+                "Google", 
+                "Google-mBERT (Base-Multilingual)",
+                "spaCy"
+            ],
+            [
+                "বাংলাদেশের সাংবিধানিক নাম গণপ্রজাতন্ত্রী বাংলাদেশ।", 
+                "Google", 
+                "Google-mBERT (Base-Multilingual)",
+                "TextBlob"
+            ],
+            [
+                "তিনজনের কেউই বাবার পথ ধরে প্রযুক্তি দুনিয়ায় হাঁটেননি।", 
+                "Google", 
+                "Neulab-AwesomeAlign (Bn-En-0.5M)", 
+                "spaCy"
+            ],
+            [
+                "তিনজনের কেউই বাবার পথ ধরে প্রযুক্তি দুনিয়ায় হাঁটেননি।", 
+                "BanglaNMT",
+                "Google-mBERT (Base-Multilingual)", 
+                "spaCy"
+            ],
+            [
+                "তিনজনের কেউই বাবার পথ ধরে প্রযুক্তি দুনিয়ায় হাঁটেননি।", 
+                "MyMemory",
+                "Google-mBERT (Base-Multilingual)", 
+                "spaCy"
+            ],
+            [
+                "বিশ্বের আরও একটি সেরা ক্লাব।", 
+                "Google", 
+                "Neulab-AwesomeAlign (Bn-En-0.5M)", 
+                "Flair"
             ]
-            with gr.Row():
-                btn = gr.Button(value="Submit", variant="primary")
-                gr.ClearButton(inputs)
 
-        with gr.Column():
-            outputs = [
-                gr.Textbox(label="English Translation"), 
-                RichTextbox(label="PoS Tags"),
-                gr.Textbox(label="PoS Tagging Accuracy (Based on Unknown(UNK) Tags)")
+        ], inputs)
+
+    with gr.Tab("Using Bangla Library"):
+        with gr.Row():
+            with gr.Column():
+                inputs = [
+                    gr.Textbox(
+                        label="Enter Bangla Sentence", 
+                        placeholder="বাংলা বাক্য লিখুন"
+                    ),
+                    gr.Dropdown(
+                        choices=["BNLTK", "SBNLTK"],
+                        label="Select a Bangla NLP Library"
+                    )
+                ]
+                with gr.Row():
+                    btn = gr.Button(value="Submit", variant="primary")
+                    gr.ClearButton(inputs)
+
+            with gr.Column():
+                outputs = [
+                    RichTextbox(label="PoS Tags")
+                ]
+
+        btn.click(bn_postagger, inputs, outputs)
+
+        gr.Examples([
+            [
+                "বাংলাদেশ দক্ষিণ এশিয়ার একটি সার্বভৌম রাষ্ট্র।", 
+                "BNLTK"
+            ],
+            [
+                "বাংলাদেশের সংবিধানিক নাম কি?", 
+                "SBNLTK"
+            ],
+            [
+                "বাংলাদেশের সাংবিধানিক নাম গণপ্রজাতন্ত্রী বাংলাদেশ।", 
+                "SBNLTK"
+            ],
+            [
+                "তিনজনের কেউই বাবার পথ ধরে প্রযুক্তি দুনিয়ায় হাঁটেননি।", 
+                "BNLTK"
             ]
 
-    btn.click(bn_postagger, inputs, outputs)
-
-    gr.Examples([
-        [
-            "বাংলাদেশ দক্ষিণ এশিয়ার একটি সার্বভৌম রাষ্ট্র।", 
-            "Google", 
-            "Neulab-AwesomeAlign (Bn-En-0.5M)", 
-            "NLTK"
-        ],
-        [
-            "বাংলাদেশের সংবিধানিক নাম কি?", 
-            "Google", 
-            "Google-mBERT (Base-Multilingual)",
-            "spaCy"
-        ],
-        [
-            "বাংলাদেশের সাংবিধানিক নাম গণপ্রজাতন্ত্রী বাংলাদেশ।", 
-            "Google", 
-            "Google-mBERT (Base-Multilingual)",
-            "TextBlob"
-        ],
-        [
-            "তিনজনের কেউই বাবার পথ ধরে প্রযুক্তি দুনিয়ায় হাঁটেননি।", 
-            "Google", 
-            "Neulab-AwesomeAlign (Bn-En-0.5M)", 
-            "spaCy"
-        ],
-        [
-            "তিনজনের কেউই বাবার পথ ধরে প্রযুক্তি দুনিয়ায় হাঁটেননি।", 
-            "BanglaNMT",
-            "Google-mBERT (Base-Multilingual)", 
-            "spaCy"
-        ],
-        [
-            "তিনজনের কেউই বাবার পথ ধরে প্রযুক্তি দুনিয়ায় হাঁটেননি।", 
-            "MyMemory",
-            "Google-mBERT (Base-Multilingual)", 
-            "spaCy"
-        ],
-        [
-            "বিশ্বের আরও একটি সেরা ক্লাব।", 
-            "Google", 
-            "Neulab-AwesomeAlign (Bn-En-0.5M)", 
-            "Flair"
-        ]
-
-    ], inputs)
-
+        ], inputs)
 
 
 # Launch the Gradio app
