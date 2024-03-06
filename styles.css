@@ -11,7 +11,7 @@ p {
 }
 
 .mybtn {
-    background-color: rgb(240,98,16)!important;
+    background-color: rgb(240, 98, 16) !important;
 }
 
 table {
@@ -26,4 +26,8 @@ td {
     border: 1px solid gray;
     border-collapse: collapse;
     padding: 5px;
+}
+
+footer {
+    visibility: hidden;
 }
