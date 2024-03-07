@@ -49,7 +49,7 @@ def bn_postagger(src, translator, model_name, tagger):
 #     ]
 # )
 
-with gr.Blocks(css="styles.css", title="Home | Bangla PoS Taggers", theme='freddyaboulton/dracula_revamped') as demo:
+with gr.Blocks(css="styles.css", title="Home | Bangla PoS Taggers") as demo:
     gr.HTML("<h1>Bangla PoS Taggers</h1>")
     gr.HTML("<p>Parts of Speech (PoS) Tagging of Bangla Sentence using Bangla-English <strong>Word Alignment</strong></p>")
 
